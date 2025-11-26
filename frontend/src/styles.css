@@ -1,1 +1,314 @@
-<REPLACE WITH CSS>
+:root {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+  }
+  
+  /* Root wrapper for embedding in Notion iframe */
+  .widget-root {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+  
+  .widget-card {
+    position: relative;
+    width: 320px;
+    border-radius: 16px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #f5f7fb, #e4f3ff);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+    box-sizing: border-box;
+    color: #0f172a;
+  }
+  
+  /* Header */
+  .widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .widget-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #4b5563;
+  }
+  
+  .widget-sync-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    background: #0ea5e9;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .widget-sync-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+  
+  /* Main */
+  .widget-main {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .character-wrapper {
+    flex: 1;
+    cursor: pointer;
+  }
+  
+  .widget-info {
+    flex: 1;
+    font-size: 12px;
+  }
+  
+  .points-display {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px;
+  }
+  
+  .points-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+  }
+  
+  .points-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0ea5e9;
+  }
+  
+  .task-stats {
+    font-size: 11px;
+    color: #4b5563;
+  }
+  
+  .task-recent {
+    color: #16a34a;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  
+  .hint-text {
+    margin-top: 4px;
+    font-size: 10px;
+    color: #9ca3af;
+  }
+  
+  /* Error */
+  .widget-error {
+    margin-top: 8px;
+    padding: 4px 6px;
+    background: rgba(248, 113, 113, 0.12);
+    border-radius: 6px;
+    color: #b91c1c;
+    font-size: 11px;
+  }
+  
+  /* Character */
+  
+  .character-root {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+  
+  .character-body {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* 16-personalities-ish pastel cube style */
+  .character-face {
+    width: 70px;
+    height: 52px;
+    border-radius: 14px;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  
+  .face-eyes {
+    display: flex;
+    gap: 10px;
+    font-size: 16px;
+    transform: translateY(-2px);
+  }
+  
+  .face-mouth {
+    font-size: 12px;
+    color: #4b5563;
+  }
+  
+  .character-torso {
+    width: 60px;
+    height: 34px;
+    border-radius: 16px 16px 10px 10px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    margin-top: 2px;
+  }
+  
+  .character-legs {
+    width: 42px;
+    height: 20px;
+    border-radius: 10px 10px 8px 8px;
+    background: #1e293b;
+    margin-top: 2px;
+  }
+  
+  /* Accessories (positioned relative to face/body) */
+  .acc-hat-basic {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+  }
+  
+  .acc-glasses-nerd {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+  }
+  
+  .acc-cape-red {
+    position: absolute;
+    top: 50px;
+    left: 12px;
+    font-size: 20px;
+  }
+  
+  .acc-pet-cat {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    font-size: 20px;
+  }
+  
+  /* Shop overlay */
+  .shop-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+  }
+  
+  .shop-card {
+    width: 100%;
+    max-width: 300px;
+    max-height: 230px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+  }
+  
+  .shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  .shop-close-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .shop-points {
+    font-size: 11px;
+    color: #4b5563;
+    margin-bottom: 6px;
+  }
+  
+  .shop-grid {
+    flex: 1;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  
+  .shop-item {
+    border-radius: 8px;
+    padding: 6px;
+    background: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .shop-item-name {
+    font-weight: 600;
+    font-size: 11px;
+  }
+  
+  .shop-item-type {
+    font-size: 10px;
+    color: #6b7280;
+  }
+  
+  .shop-item-cost {
+    font-size: 10px;
+    color: #0f766e;
+  }
+  
+  .shop-item-actions {
+    margin-top: 4px;
+  }
+  
+  .shop-btn {
+    width: 100%;
+    border-radius: 999px;
+    border: none;
+    background: #0ea5e9;
+    color: white;
+    font-size: 11px;
+    padding: 4px;
+    cursor: pointer;
+  }
+  
+  .shop-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  
+  .shop-btn-equipped {
+    background: #22c55e;
+  }
+  
