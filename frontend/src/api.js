@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://notion-character-widget.onrender.com";
 
 export async function fetchState(userId = "default") {
   const res = await fetch(`${BASE_URL}/api/state?userId=${encodeURIComponent(userId)}`);
