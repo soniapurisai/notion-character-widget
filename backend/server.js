@@ -247,6 +247,29 @@ app.post("/api/equip-accessory", (req, res) => {
   });
 });
 
+// Unequip accessory endpoint
+app.post('/api/unequip-accessory', async (req, res) => {
+  try {
+    const { userId, accessoryId } = req.body;
+    
+    // Your existing state logic...
+    const state = await loadState(userId);
+    
+    // Remove from equipped
+    state.equippedAccessories = state.equippedAccessories.filter(id => id !== accessoryId);
+    
+    // Save state
+    await saveState(userId, state);
+    
+    res.json({
+      equippedAccessories: state.equippedAccessories,
+      message: 'Accessory unequipped'
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // ====== Start ======
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
