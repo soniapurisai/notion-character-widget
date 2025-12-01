@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { fetchState, buyAccessory, equipAccessory } from "./api";
 
-const USER_ID = "default"; // later you can make this dynamic / per Notion user
+const USER_ID = "default";
+
+// Default accessory catalog for fallback
+const DEFAULT_ACCESSORIES_CATALOG = [
+  { id: "hat_basic", name: "Basic Hat", type: "Head", cost: 100 },
+  { id: "glasses_nerd", name: "Nerd Glasses", type: "Face", cost: 150 },
+  { id: "cape_red", name: "Red Cape", type: "Back", cost: 250 },
+  { id: "pet_cat", name: "Pet Cat", type: "Companion", cost: 500 }
+];
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -15,10 +23,40 @@ function App() {
     setError("");
     try {
       const data = await fetchState(USER_ID);
-      setState(data);
+      
+      // Ensure all required fields exist with fallbacks
+      const fullState = {
+        ...data,
+        points: data.points || 0,
+        ownedAccessories: data.ownedAccessories || [],
+        equippedAccessories: data.equippedAccessories || [],
+        countedTasks: data.countedTasks || [],
+        accessoriesCatalog: data.accessoriesCatalog || DEFAULT_ACCESSORIES_CATALOG,
+        stats: data.stats || { 
+          totalCompletedTasks: 0, 
+          pointsGainedThisSync: 0 
+        }
+      };
+      
+      setState(fullState);
     } catch (e) {
-      console.error(e);
-      setError(e.message);
+      console.error("Failed to load state:", e);
+      setError(e.message || "Failed to load character data");
+      
+      // Use mock data as fallback
+      const mockState = {
+        points: 2860,
+        ownedAccessories: ["hat_basic", "glasses_nerd"],
+        equippedAccessories: ["hat_basic", "glasses_nerd"],
+        countedTasks: [],
+        accessoriesCatalog: DEFAULT_ACCESSORIES_CATALOG,
+        stats: { 
+          totalCompletedTasks: 150, 
+          pointsGainedThisSync: 50 
+        }
+      };
+      
+      setState(mockState);
     } finally {
       setLoading(false);
       setSyncing(false);
@@ -39,7 +77,7 @@ function App() {
         ownedAccessories: data.ownedAccessories
       }));
     } catch (e) {
-      setError(e.message);
+      setError(e.message || "Failed to buy accessory");
     }
   };
 
@@ -52,7 +90,7 @@ function App() {
         equippedAccessories: data.equippedAccessories
       }));
     } catch (e) {
-      setError(e.message);
+      setError(e.message || "Failed to equip accessory");
     }
   };
 
@@ -63,7 +101,9 @@ function App() {
   if (loading) {
     return (
       <div className="widget-root">
-        <div className="widget-card">Loading character...</div>
+        <div className="widget-card" style={{ textAlign: 'center', padding: '20px' }}>
+          Loading character...
+        </div>
       </div>
     );
   }
@@ -71,7 +111,9 @@ function App() {
   if (!state) {
     return (
       <div className="widget-root">
-        <div className="widget-card">No state loaded.</div>
+        <div className="widget-card" style={{ textAlign: 'center', padding: '20px' }}>
+          Failed to load character data.
+        </div>
       </div>
     );
   }
