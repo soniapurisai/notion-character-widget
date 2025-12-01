@@ -270,6 +270,64 @@ app.post('/api/unequip-accessory', async (req, res) => {
   }
 });
 
+
+// Test Notion connection
+app.get('/api/test-connection', async (req, res) => {
+  try {
+    console.log('Testing Notion connection...');
+    
+    // Test 1: Check environment variables
+    if (!process.env.NOTION_API_TOKEN) {
+      return res.json({ 
+        status: 'error', 
+        message: 'NOTION_API_TOKEN is not set' 
+      });
+    }
+    
+    if (!process.env.NOTION_DATABASE_ID) {
+      return res.json({ 
+        status: 'error', 
+        message: 'NOTION_DATABASE_ID is not set' 
+      });
+    }
+    
+    // Test 2: Try to query the database
+    const response = await notion.databases.query({
+      database_id: process.env.NOTION_DATABASE_ID,
+      page_size: 1
+    });
+    
+    // Test 3: Check database structure
+    const database = await notion.databases.retrieve({
+      database_id: process.env.NOTION_DATABASE_ID
+    });
+    
+    // Look for status/properties
+    const hasStatus = database.properties.Status;
+    const hasCheckbox = database.properties.Checkbox;
+    
+    res.json({
+      status: 'success',
+      message: 'Connected to Notion successfully',
+      databaseName: database.title[0]?.plain_text || 'Untitled',
+      totalPages: response.results.length,
+      hasStatusField: !!hasStatus,
+      hasCheckboxField: !!hasCheckbox,
+      databaseId: process.env.NOTION_DATABASE_ID,
+      properties: Object.keys(database.properties)
+    });
+    
+  } catch (error) {
+    console.error('Connection test failed:', error);
+    res.status(500).json({
+      status: 'error',
+      message: error.message,
+      code: error.code,
+      suggestion: 'Check your API token, database ID, and sharing permissions'
+    });
+  }
+});
+
 // ====== Start ======
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
