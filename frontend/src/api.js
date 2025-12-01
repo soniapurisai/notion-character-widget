@@ -1,7 +1,7 @@
-const BASE_URL = "https://notion-character-widget.onrender.com";
+const BACKEND = import.meta.env.VITE_BACKEND_URL;
 
 export async function fetchState(userId = "default") {
-  const res = await fetch(`${BASE_URL}/api/state?userId=${encodeURIComponent(userId)}`);
+  const res = await fetch(`${BACKEND}/api/state?userId=${encodeURIComponent(userId)}`);
   if (!res.ok) {
     throw new Error("Failed to fetch state");
   }
@@ -9,7 +9,7 @@ export async function fetchState(userId = "default") {
 }
 
 export async function buyAccessory(userId, accessoryId) {
-  const res = await fetch(`${BASE_URL}/api/buy-accessory`, {
+  const res = await fetch(`${BACKEND}/api/buy-accessory`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -26,7 +26,7 @@ export async function buyAccessory(userId, accessoryId) {
 }
 
 export async function equipAccessory(userId, accessoryId) {
-  const res = await fetch(`${BASE_URL}/api/equip-accessory`, {
+  const res = await fetch(`${BACKEND}/api/equip-accessory`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
